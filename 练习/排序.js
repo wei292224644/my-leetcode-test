@@ -1,3 +1,9 @@
+const swap = (arr, i, j) => {
+  const temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+};
+
 /**
  * 冒泡排序
  */
@@ -7,9 +13,7 @@ function bubbleSort(arr) {
     for (let j = 0; j < n - i; j++) {
       if (arr[j] > arr[j + 1]) {
         // 交换 arr[j] 和 arr[j + 1]
-        const temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
+        swap(arr, j, j + 1);
       }
     }
   }
@@ -29,10 +33,29 @@ function selectionSort(arr) {
       }
     }
     // 交换 arr[i] 和 arr[minIndex]
-    const temp = arr[i];
-    arr[i] = arr[minIndex];
-    arr[minIndex] = temp;
+    swap(arr, i, minIndex);
   }
+  return arr;
+}
+
+/**
+ * 插入排序
+ */
+function insertionSort(arr) {
+  const n = arr.length;
+
+  for (let i = 1; i < n; i++) {
+    let j = i - 1;
+    let key = arr[i];
+
+    while (j >= 0 && arr[j] > key) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+
+    arr[j + 1] = key;
+  }
+
   return arr;
 }
 
@@ -65,7 +88,7 @@ function mergeSort(arr) {
       l++;
     }
 
-    while (r <= mid) {
+    while (r <= R) {
       helper.push(arr[r]);
       r++;
     }
@@ -172,7 +195,7 @@ function mergeSortSmallSum(arr) {
     if (L == R) {
       return 0;
     }
-    const mid = L + ((R - 1) >> 1);
+    const mid = L + ((R - L) >> 1);
     return (
       process(arr, L, mid) + process(arr, mid + 1, R) + merge(arr, L, mid, R)
     );
@@ -185,23 +208,5 @@ function mergeSortSmallSum(arr) {
   return process(arr, 0, arr.length - 1);
 }
 
-const ary = [5, 3, 8, 6, 2, 7, 4, 1];
+const ary = [5, 3, 8, 6, 2, 7, 4];
 console.log(mergeSortSmallSum(ary));
-
-// /**
-//  * 插入排序
-//  */
-// function insertionSort(arr) {
-//   const n = arr.length;
-//   for (let i = 1; i < n; i++) {
-//     const key = arr[i];
-//     let j = i - 1;
-//     // 将 arr[i] 插入到已排序的子数组 arr[0..i-1] 中
-//     while (j >= 0 && arr[j] > key) {
-//       arr[j + 1] = arr[j];
-//       j--;
-//     }
-//     arr[j + 1] = key;
-//   }
-//   return arr;
-// }
