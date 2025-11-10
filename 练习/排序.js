@@ -8,15 +8,16 @@ const swap = (arr, i, j) => {
  * 冒泡排序
  */
 function bubbleSort(arr) {
-  const n = arr.length - 1;
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n - i; j++) {
+  const n = arr.length;
+
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = 0; j < n - 1; j++) {
       if (arr[j] > arr[j + 1]) {
-        // 交换 arr[j] 和 arr[j + 1]
         swap(arr, j, j + 1);
       }
     }
   }
+
   return arr;
 }
 
@@ -155,6 +156,11 @@ function mergeSort(arr) {
   return func2(arr);
 }
 
+/**
+ * 通过归并排序计算出小和（小和问题是指在一个数组中，每个元素左边比它小的元素之和的总和。）
+ * @param {*} arr
+ * @returns
+ */
 function mergeSortSmallSum(arr) {
   const merge = (arr, L, mid, R) => {
     const helper = [];
@@ -209,4 +215,4 @@ function mergeSortSmallSum(arr) {
 }
 
 const ary = [5, 3, 8, 6, 2, 7, 4];
-console.log(mergeSortSmallSum(ary));
+console.log(selectionSort(ary));
