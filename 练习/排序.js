@@ -548,7 +548,7 @@ const quickSort = (arr) => {
       return;
     }
 
-    //3.0
+    //3.0 通过随机数来降低最坏情况的发生
     swap(arr, R, L + Math.floor(Math.random() * (R - L + 1)));
     const [flagL, flagR] = sort(arr, L, R);
     process(arr, L, flagL - 1);
