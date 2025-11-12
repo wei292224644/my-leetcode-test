@@ -8,10 +8,22 @@ const swap = (arr, i, j) => {
  * 冒泡排序
  */
 function bubbleSort(arr) {
+  // const n = arr.length;
+
+  // for (let i = 0; i < n - 1; i++) {
+  //   for (let j = 0; j < n - 1; j++) {
+  //     if (arr[j] > arr[j + 1]) {
+  //       swap(arr, j, j + 1);
+  //     }
+  //   }
+  // }
+
+  // return arr;
+
   const n = arr.length;
 
   for (let i = 0; i < n - 1; i++) {
-    for (let j = 0; j < n - 1; j++) {
+    for (let j = i; j < n - 1; j++) {
       if (arr[j] > arr[j + 1]) {
         swap(arr, j, j + 1);
       }
@@ -25,7 +37,21 @@ function bubbleSort(arr) {
  * 选择排序
  */
 function selectionSort(arr) {
+  // const n = arr.length;
+  // for (let i = 0; i < n - 1; i++) {
+  //   let minIndex = i;
+  //   for (let j = i + 1; j < n; j++) {
+  //     if (arr[j] < arr[minIndex]) {
+  //       minIndex = j;
+  //     }
+  //   }
+  //   // 交换 arr[i] 和 arr[minIndex]
+  //   swap(arr, i, minIndex);
+  // }
+  // return arr;
+
   const n = arr.length;
+
   for (let i = 0; i < n - 1; i++) {
     let minIndex = i;
     for (let j = i + 1; j < n; j++) {
@@ -33,9 +59,9 @@ function selectionSort(arr) {
         minIndex = j;
       }
     }
-    // 交换 arr[i] 和 arr[minIndex]
     swap(arr, i, minIndex);
   }
+
   return arr;
 }
 
@@ -43,12 +69,28 @@ function selectionSort(arr) {
  * 插入排序
  */
 function insertionSort(arr) {
+  // const n = arr.length;
+
+  // for (let i = 1; i < n; i++) {
+  //   let j = i - 1;
+  //   let key = arr[i];
+
+  //   while (j >= 0 && arr[j] > key) {
+  //     arr[j + 1] = arr[j];
+  //     j--;
+  //   }
+
+  //   arr[j + 1] = key;
+  // }
+
+  // return arr;
+
   const n = arr.length;
 
   for (let i = 1; i < n; i++) {
     let j = i - 1;
-    let key = arr[i];
 
+    let key = arr[i];
     while (j >= 0 && arr[j] > key) {
       arr[j + 1] = arr[j];
       j--;
@@ -516,43 +558,91 @@ const neterlandsFlag = (arr) => {
 };
 
 const quickSort = (arr) => {
-  const sort = (arr, L, R) => {
-    if (L > R) {
+  // const sort = (arr, L, R) => {
+  //   if (L > R) {
+  //     return [-1, -1];
+  //   }
+  //   if (L == R) {
+  //     return [L, R];
+  //   }
+  //   let less = L - 1;
+  //   let more = R;
+  //   let index = L;
+
+  //   while (index < more) {
+  //     if (arr[index] < arr[R]) {
+  //       swap(arr, index, ++less);
+  //       index++;
+  //     } else if (arr[index] == arr[R]) {
+  //       index++;
+  //     } else {
+  //       swap(arr, index, --more);
+  //     }
+  //   }
+
+  //   swap(arr, more, R);
+
+  //   return [less + 1, more];
+  // };
+
+  // const process = (arr, L, R) => {
+  //   if (L >= R) {
+  //     return;
+  //   }
+
+  //   //3.0 通过随机数来降低最坏情况的发生
+  //   swap(arr, R, L + Math.floor(Math.random() * (R - L + 1)));
+  //   const [flagL, flagR] = sort(arr, L, R);
+  //   process(arr, L, flagL - 1);
+  //   process(arr, flagR + 1, R);
+  // };
+
+  // if (arr == null || arr.length < 2) {
+  //   return arr;
+  // }
+
+  // const n = arr.length - 1;
+  // process(arr, 0, n);
+  // return arr;
+
+  const sort = (arr, l, r) => {
+    if (l > r) {
       return [-1, -1];
     }
-    if (L == R) {
-      return [L, R];
+    if (l == r) {
+      return [l, r];
     }
-    let less = L - 1;
-    let more = R;
-    let index = L;
 
-    while (index < more) {
-      if (arr[index] < arr[R]) {
+    let less = l - 1;
+    let more = r;
+    let index = l;
+
+    while (less < more) {
+      if (arr[index] < arr[r]) {
         swap(arr, index, ++less);
         index++;
-      } else if (arr[index] == arr[R]) {
+      } else if (arr[index] == arr[r]) {
         index++;
       } else {
         swap(arr, index, --more);
       }
     }
-
-    swap(arr, more, R);
+    swap(arr, more, r);
 
     return [less + 1, more];
   };
 
-  const process = (arr, L, R) => {
-    if (L >= R) {
+  const process = (arr, l, r) => {
+    if (l >= r) {
       return;
     }
 
-    //3.0 通过随机数来降低最坏情况的发生
-    swap(arr, R, L + Math.floor(Math.random() * (R - L + 1)));
-    const [flagL, flagR] = sort(arr, L, R);
-    process(arr, L, flagL - 1);
-    process(arr, flagR + 1, R);
+    swap(arr, r, l + Math.floor(Math.random() * (r - l + 1)));
+
+    const [flagL, flagR] = sort(arr, l, r);
+
+    process(arr, l, flagL - 1);
+    process(arr, flagR + 1, r);
   };
 
   if (arr == null || arr.length < 2) {
