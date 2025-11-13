@@ -558,53 +558,6 @@ const neterlandsFlag = (arr) => {
 };
 
 const quickSort = (arr) => {
-  // const sort = (arr, L, R) => {
-  //   if (L > R) {
-  //     return [-1, -1];
-  //   }
-  //   if (L == R) {
-  //     return [L, R];
-  //   }
-  //   let less = L - 1;
-  //   let more = R;
-  //   let index = L;
-
-  //   while (index < more) {
-  //     if (arr[index] < arr[R]) {
-  //       swap(arr, index, ++less);
-  //       index++;
-  //     } else if (arr[index] == arr[R]) {
-  //       index++;
-  //     } else {
-  //       swap(arr, index, --more);
-  //     }
-  //   }
-
-  //   swap(arr, more, R);
-
-  //   return [less + 1, more];
-  // };
-
-  // const process = (arr, L, R) => {
-  //   if (L >= R) {
-  //     return;
-  //   }
-
-  //   //3.0 通过随机数来降低最坏情况的发生
-  //   swap(arr, R, L + Math.floor(Math.random() * (R - L + 1)));
-  //   const [flagL, flagR] = sort(arr, L, R);
-  //   process(arr, L, flagL - 1);
-  //   process(arr, flagR + 1, R);
-  // };
-
-  // if (arr == null || arr.length < 2) {
-  //   return arr;
-  // }
-
-  // const n = arr.length - 1;
-  // process(arr, 0, n);
-  // return arr;
-
   const sort = (arr, l, r) => {
     if (l > r) {
       return [-1, -1];
