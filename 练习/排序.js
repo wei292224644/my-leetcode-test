@@ -22,8 +22,8 @@ function bubbleSort(arr) {
 
   const n = arr.length;
 
-  for (let i = 0; i < n - 1; i++) {
-    for (let j = i; j < n - 1; j++) {
+  for (let i = 0; i < n; i++) {
+    for (let j = i; j < n; j++) {
       if (arr[j] > arr[j + 1]) {
         swap(arr, j, j + 1);
       }
@@ -34,7 +34,7 @@ function bubbleSort(arr) {
 }
 
 /**
- * 选择排序
+ * 选择排序,就是找到最小值的索引，然后交换
  */
 function selectionSort(arr) {
   // const n = arr.length;
@@ -54,6 +54,7 @@ function selectionSort(arr) {
 
   for (let i = 0; i < n - 1; i++) {
     let minIndex = i;
+
     for (let j = i + 1; j < n; j++) {
       if (arr[j] < arr[minIndex]) {
         minIndex = j;
@@ -61,45 +62,23 @@ function selectionSort(arr) {
     }
     swap(arr, i, minIndex);
   }
-
-  return arr;
 }
 
 /**
- * 插入排序
+ * 插入排序,就是将当前元素插入到已经排序好的部分
  */
 function insertionSort(arr) {
   // const n = arr.length;
-
   // for (let i = 1; i < n; i++) {
   //   let j = i - 1;
   //   let key = arr[i];
-
   //   while (j >= 0 && arr[j] > key) {
   //     arr[j + 1] = arr[j];
   //     j--;
   //   }
-
   //   arr[j + 1] = key;
   // }
-
   // return arr;
-
-  const n = arr.length;
-
-  for (let i = 1; i < n; i++) {
-    let j = i - 1;
-
-    let key = arr[i];
-    while (j >= 0 && arr[j] > key) {
-      arr[j + 1] = arr[j];
-      j--;
-    }
-
-    arr[j + 1] = key;
-  }
-
-  return arr;
 }
 
 //#region 归并排序
@@ -113,34 +92,29 @@ function mergeSort(arr) {
   }
 
   const merge = (arr, left, mid, right) => {
-    const helper = [];
-    let l = left;
-
-    let r = mid + 1;
-
-    while (l <= mid && r <= right) {
-      if (arr[l] <= arr[r]) {
-        helper.push(arr[l]);
-        l++;
-      } else {
-        helper.push(arr[r]);
-        r++;
-      }
-    }
-
-    while (l <= mid) {
-      helper.push(arr[l]);
-      l++;
-    }
-
-    while (r <= R) {
-      helper.push(arr[r]);
-      r++;
-    }
-
-    for (let i = 0; i < helper.length; i++) {
-      arr[left + i] = helper[i];
-    }
+    // const helper = [];
+    // let l = left;
+    // let r = mid + 1;
+    // while (l <= mid && r <= right) {
+    //   if (arr[l] <= arr[r]) {
+    //     helper.push(arr[l]);
+    //     l++;
+    //   } else {
+    //     helper.push(arr[r]);
+    //     r++;
+    //   }
+    // }
+    // while (l <= mid) {
+    //   helper.push(arr[l]);
+    //   l++;
+    // }
+    // while (r <= R) {
+    //   helper.push(arr[r]);
+    //   r++;
+    // }
+    // for (let i = 0; i < helper.length; i++) {
+    //   arr[left + i] = helper[i];
+    // }
   };
 
   /**
