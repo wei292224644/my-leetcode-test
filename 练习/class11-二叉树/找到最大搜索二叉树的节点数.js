@@ -2,14 +2,13 @@ const { TreeNode, generateRandomBST, printTree } = require("./tools");
 
 //找到最大搜索二叉树的节点数
 
-
-
 class Info {
-  constructor(maxBSTSubtreeSize, min, max, allSize) {
+  constructor(maxBSTSubtreeSize, min, max, allSize, bstNode) {
     this.min = min;
     this.max = max;
     this.allSize = allSize;
     this.maxBSTSubtreeSize = maxBSTSubtreeSize;
+    this.bstNode = bstNode;
   }
 }
 
@@ -17,7 +16,7 @@ const largestBSTSubtree = (root) => {
   if (root === null) return 0;
 
   const process = (node) => {
-    if (node == null) return new Info(0, Infinity, -Infinity, 0);
+    if (node == null) return new Info(0, Infinity, -Infinity, 0, null);
 
     const leftInfo = process(node.left);
     const rightInfo = process(node.right);
@@ -35,9 +34,14 @@ const largestBSTSubtree = (root) => {
       node.val < rightInfo.min;
 
     let maxBSTSubtreeSize = -1;
+    let bstNode =
+      leftInfo.maxBSTSubtreeSize >= rightInfo.maxBSTSubtreeSize
+        ? leftInfo.bstNode
+        : rightInfo.bstNode;
 
     if (leftIsBST && rightIsBST) {
       maxBSTSubtreeSize = leftInfo.allSize + rightInfo.allSize + 1;
+      bstNode = node;
     }
 
     maxBSTSubtreeSize = Math.max(
@@ -46,10 +50,11 @@ const largestBSTSubtree = (root) => {
       maxBSTSubtreeSize
     );
 
-    return new Info(maxBSTSubtreeSize, min, max, allSize);
+    return new Info(maxBSTSubtreeSize, min, max, allSize, bstNode);
   };
-
-  return process(root).maxBSTSubtreeSize;
+  const info = process(root);
+  console.log("The root node of the largest BST subtree is:", info.bstNode);
+  return info.maxBSTSubtreeSize;
 };
 
 //example
@@ -86,17 +91,38 @@ const maxBSTSubtreeSize2 = (node) => {
   );
 };
 
-const maxLevel = 4;
-const maxValue = 100;
-const node1 = generateRandomBST(maxLevel, maxValue);
+// const maxLevel = 4;
+// const maxValue = 100;
+// const node1 = generateRandomBST(maxLevel, maxValue);
 
-printTree(node1);
-const result = largestBSTSubtree(node1);
-console.log(
-  `The size of the largest search binary subtree in the binary tree is: ${result}`
-);
+// printTree(node1);
+// const result = largestBSTSubtree(node1);
+// console.log(
+//   `The size of the largest search binary subtree in the binary tree is: ${result}`
+// );
 
-const result2 = maxBSTSubtreeSize2(node1);
+// const result2 = maxBSTSubtreeSize2(node1);
+// console.log(
+//   `The size of the largest search binary subtree in the binary tree is: ${result2}`
+// );
+
+const node2 = new TreeNode(4);
+node2.left = new TreeNode(3);
+node2.left.left = new TreeNode(2);
+node2.left.right = new TreeNode(4);
+node2.left.left.left = new TreeNode(1);
+node2.right = new TreeNode(5);
+node2.right.right = new TreeNode(3.5);
+node2.right.right.right = new TreeNode(7);
+node2.right.right.right.right = new TreeNode(8);
+
+printTree(node2);
+const result3 = largestBSTSubtree(node2);
 console.log(
-  `The size of the largest search binary subtree in the binary tree is: ${result2}`
-);
+  `The size of the largest search binary subtree in the binary tree is: ${result3}`
+); //11
+
+const result4 = maxBSTSubtreeSize2(node2);
+console.log(
+  `The size of the largest search binary subtree in the binary tree is: ${result4}`
+); //
