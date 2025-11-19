@@ -1,0 +1,43 @@
+const { TreeNode, generateRandomBST, printTree } = require("./tools");
+
+class Info {
+  constructor(isBST, min, max) {
+    this.isBST = isBST;
+    this.min = min;
+    this.max = max;
+  }
+}
+
+const isBST = (root) => {
+  if (root == null) return true;
+
+  const process = (node) => {
+    if (node == null) {
+      return new Info(true, Infinity, -Infinity);
+    }
+
+    const leftInfo = process(node.left);
+    const rightInfo = process(node.right);
+
+    const min = Math.min(node.val, leftInfo.min, rightInfo.min);
+    const max = Math.max(node.val, leftInfo.max, rightInfo.max);
+
+    const isBST =
+      leftInfo.isBST &&
+      rightInfo.isBST &&
+      leftInfo.max < node.val &&
+      rightInfo.min > node.val;
+
+    return new Info(isBST, min, max);
+  };
+
+  return process(root).isBST;
+};
+
+//example
+const maxLevel = 4;
+const maxValue = 100;
+const head = generateRandomBST(maxLevel, maxValue);
+printTree(head);
+const result = isBST(head);
+console.log(`Is the binary tree a BST? ${result}`);
