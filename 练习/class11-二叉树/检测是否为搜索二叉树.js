@@ -1,5 +1,7 @@
 const { TreeNode, generateRandomBST, printTree } = require("./tools");
 
+// 搜索二叉树：对于二叉树的每一个节点，其左子树上所有节点的值都小于该节点的值，其右子树上所有节点的值都大于该节点的值。
+
 class Info {
   constructor(isBST, min, max) {
     this.isBST = isBST;

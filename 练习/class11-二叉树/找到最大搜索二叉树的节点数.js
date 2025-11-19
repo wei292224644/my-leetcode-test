@@ -1,5 +1,9 @@
 const { TreeNode, generateRandomBST, printTree } = require("./tools");
 
+//找到最大搜索二叉树的节点数
+
+
+
 class Info {
   constructor(maxBSTSubtreeSize, min, max, allSize) {
     this.min = min;

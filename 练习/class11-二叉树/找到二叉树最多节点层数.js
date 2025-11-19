@@ -29,42 +29,6 @@ class Queue {
 }
 
 function maxDepth(head) {
-  //   if (head == null) return 0;
-
-  //   let max = 1;
-  //   let curLen = 0;
-  //   let curEndNode, nextEndNode;
-
-  //   const queue = new Queue();
-  //   queue.push(head);
-
-  //   curEndNode = head;
-
-  //   while (!queue.isEmpty()) {
-  //     const node = queue.pop();
-
-  //     curLen++;
-
-  //     if (node.left) {
-  //       queue.push(node.left);
-
-  //       nextEndNode = node.left;
-  //     }
-  //     if (node.right) {
-  //       queue.push(node.right);
-  //       nextEndNode = node.right;
-  //     }
-
-  //     if (node === curEndNode) {
-  //       curEndNode = nextEndNode;
-  //       nextEndNode = null;
-  //       max = Math.max(max, curLen);
-  //       curLen = 0;
-  //     }
-  //   }
-
-  //   return max;
-
   if (head == null) return 0;
 
   let max = 1;

@@ -1,5 +1,6 @@
 const { TreeNode, generateRandomBST, printTree } = require("./tools");
 
+// 平衡二叉树：任意节点的左子树和右子树的高度差不超过1的二叉树。
 class Info {
   constructor(isBalanced, height) {
     this.isBalanced = isBalanced;
@@ -9,14 +10,12 @@ class Info {
 
 const isBalancedBST = function (root) {
   const process = (node) => {
-    if (node == null) {
-      return new Info(true, 0);
-    }
+    if (node == null) return new Info(true, 0);
 
     const leftInfo = process(node.left);
     const rightInfo = process(node.right);
 
-    const height = Math.max(leftInfo.height, rightInfo.height) + 1;
+    const height = leftInfo.height + rightInfo.height + 1;
 
     const isBalanced =
       leftInfo.isBalanced &&

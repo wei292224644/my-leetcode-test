@@ -1,5 +1,7 @@
 const { TreeNode, generateRandomBST, printTree } = require("./tools");
 
+// 满二叉树：每个节点要么是叶节点，要么有两个子节点的二叉树。
+// 检测所有节点数量是否等于2的高度次方减1。
 class Info {
   constructor(nodes, height) {
     this.nodes = nodes;
@@ -11,9 +13,8 @@ const isFullBST = (root) => {
   if (root == null) return true;
 
   const process = (node) => {
-    if (node == null) {
-      return new Info(0, 0);
-    }
+    if (node == null) return new Info(0, 0);
+
     const leftInfo = process(node.left);
     const rightInfo = process(node.right);
 

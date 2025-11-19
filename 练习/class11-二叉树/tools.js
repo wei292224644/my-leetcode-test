@@ -10,7 +10,7 @@ class TreeNode {
  */
 function generateRandomBST(maxLevel, maxValue) {
   function generate(level, maxLevel, maxValue) {
-    if (level > maxLevel || Math.random() < 0.5) {
+    if (level > maxLevel || Math.random() < 0.3) {
       return null;
     }
 
@@ -44,4 +44,47 @@ function printInOrder(head, height, to, len) {
   printInOrder(head.left, height + 1, "^", len);
 }
 
-export { generateRandomBST, printTree, TreeNode };
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+
+  push(element) {
+    this.items.push(element);
+  }
+
+  pop() {
+    return this.items.shift();
+  }
+  isEmpty() {
+    return this.items.length == 0;
+  }
+
+  peek() {
+    return this.items[0];
+  }
+}
+
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+
+  push(element) {
+    this.items.push(element);
+  }
+
+  pop() {
+    return this.items.pop();
+  }
+
+  isEmpty() {
+    return this.items.length == 0;
+  }
+
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+}
+
+export { generateRandomBST, printTree, TreeNode, Queue, Stack };
