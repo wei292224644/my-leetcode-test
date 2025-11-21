@@ -10,6 +10,10 @@ class DoubleNode {
   }
 }
 
+/**
+ * 队列是先进入先出来
+ * 栈是先进来后出来
+ */
 class MyQueue {
   constructor() {
     this.head = null;
