@@ -182,7 +182,6 @@ const heapSort = (arr) => {
     arr[index] = heap.pop();
     index++;
     heapSize--;
-    ·s
   }
 
   return arr;

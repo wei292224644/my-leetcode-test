@@ -87,4 +87,77 @@ class Stack {
   }
 }
 
+class Heap {
+  constructor(comparator) {
+    this.heap = [];
+    this.heapSize = 0;
+    this.comparator = comparator || ((a, b) => b - a);
+  }
+
+  _swap(a, b) {
+    const temp = this.heap[a];
+    this.heap[a] = this.heap[b];
+    this.heap[b] = temp;
+  }
+
+  add(value) {
+    this.heap[this.heapSize] = value;
+    this.heapInsert(this.heapSize++);
+  }
+
+  addAll(values) {
+    this.heap.push(...values);
+    this.heapSize += values.length;
+
+    for (let i = (this.heapSize - 2) >> 1; i >= 0; i--) {
+      this.heapify(i);
+    }
+  }
+  pop() {
+    const first = this.heap[0];
+
+    this._swap(0, --this.heapSize);
+    this.heapify(0);
+    return first;
+  }
+
+  isEmpty() {
+    return this.heapSize == 0;
+  }
+
+  heapInsert(index) {
+    let parent = (index - 1) >> 1;
+
+    while (this.comparator(this.heap[index], this.heap[parent]) < 0) {
+      this._swap(index, parent);
+      index = parent;
+      parent = (index - 1) >> 1;
+    }
+  }
+
+  heapify(index) {
+    let left = index * 2 + 1;
+
+    while (left < this.heapSize) {
+      let largest =
+        left + 1 < this.heapSize &&
+        this.comparator(this.heap[left + 1], this.heap[left]) < 0
+          ? left + 1
+          : left;
+
+      largest =
+        this.comparator(this.heap[largest], this.heap[index]) < 0
+          ? largest
+          : index;
+
+      if (largest == index) {
+        break;
+      }
+      this._swap(largest, index);
+      index = largest;
+      left = index * 2 + 1;
+    }
+  }
+}
+
 export { generateRandomBST, printTree, TreeNode, Queue, Stack };
