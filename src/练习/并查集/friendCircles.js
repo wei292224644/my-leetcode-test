@@ -6,21 +6,70 @@ const { UnionSet } = require("./tools");
  */
 var findCircleNum = (isConnected) => {
   const n = isConnected.length;
-  const values = new Array(n).fill(0).map((v, i) => i + 1);
-  const unionSet = new UnionSet(values);
+
+  const unionAry = new UnionAry(n);
 
   for (let i = 0; i < n; i++) {
-    for (let j = 0; j < i; j++) {
+    for (let j = i + 1; j < n; j++) {
       if (i == j) continue;
 
       if (isConnected[i][j]) {
-        unionSet.union(values[i], values[j]);
+        unionAry.union(i, j);
       }
     }
   }
 
-  return unionSet.size();
+  return unionAry.length();
 };
+
+class UnionAry {
+  constructor(N) {
+    this.parent = new Array(N);
+    this.size = new Array(N);
+    this.helper = new Array(N);
+    this.sets = N;
+
+    for (let i = 0; i < N; i++) {
+      this.parent[i] = i;
+      this.size[i] = 1;
+    }
+  }
+
+  findHead(i) {
+    let hi = 0;
+    while (i !== this.parent[i]) {
+      this.helper[hi++] = i;
+      i = this.parent[i];
+    }
+
+    for (hi--; hi >= 0; hi--) {
+      this.parent[this.helper[hi]] = i;
+    }
+
+    return i;
+  }
+
+  union(a, b) {
+    const aHead = this.findHead(a);
+    const bHead = this.findHead(b);
+
+    if (aHead !== bHead) {
+      const aSize = this.size[aHead];
+      const bSize = this.size[bHead];
+
+      const big = aSize >= bSize ? aHead : bHead;
+      const small = big == aHead ? bHead : aHead;
+
+      this.parent[small] = big;
+      this.size[big] = aSize + bSize;
+      this.sets--;
+    }
+  }
+
+  length() {
+    return this.sets;
+  }
+}
 
 // example
 console.log(

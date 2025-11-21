@@ -10,12 +10,20 @@ class UnionSet {
     this.parents = new Map();
     this.sizeMap = new Map();
 
-    for (let value of values) {
-      const node = new UnionNode(value);
-      this.nodes.set(value, node);
-      this.parents.set(node, node);
-      this.sizeMap.set(node, 1);
+    if (values) {
+      for (let value of values) {
+        const node = new UnionNode(value);
+        this.nodes.set(value, node);
+        this.parents.set(node, node);
+        this.sizeMap.set(node, 1);
+      }
     }
+  }
+
+  add(element) {
+    this.nodes.set(element, element);
+    this.parents.set(element, element);
+    this.sizeMap.set(element, 1);
   }
 
   findHead(cur) {
