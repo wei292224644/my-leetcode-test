@@ -8,7 +8,17 @@ class Info {
   }
 }
 
+/**
+ *
+ * @param {TreeNode} root
+ * @returns {Info}
+ */
 const isBalancedBST = function (root) {
+  /**
+   *
+   * @param {TreeNode} node
+   * @returns
+   */
   const process = (node) => {
     if (node == null) return new Info(true, 0);
 

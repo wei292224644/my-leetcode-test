@@ -1,8 +1,19 @@
 const { TreeNode, generateRandomBST, printTree } = require("./tools");
 
 //找到最大搜索二叉树的节点数
+// 题目：给定一棵二叉树的头节点head，返回这棵二叉树中最大的搜索二叉子树的节点数。
+// 思路：使用后序遍历，遍历过程中获取每个节点的信息
+// 搜索二叉树的定义：
+// 1. 左子树所有节点值均小于根节点值
+// 2. 右子树所有节点值均大于根节点值
+// 3. 左右子树均为搜索二叉树
 
 class Info {
+  // maxBSTSubtreeSize：以该节点为根节点的子树中，最大搜索二叉子树的节点数
+  // min：以该节点为根节点的子树中的最小值
+  // max：以该节点为根节点的子树中的最大值
+  // allSize：以该节点为根节点的子树的节点总数
+  // bstNode：以该节点为根节点的子树中，最大搜索二叉子树的头节点
   constructor(maxBSTSubtreeSize, min, max, allSize, bstNode) {
     this.min = min;
     this.max = max;

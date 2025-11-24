@@ -9,10 +9,18 @@ class Info {
     this.max = max;
   }
 }
-
+/**
+ *
+ * @param {TreeNode} root
+ * @returns {Info}
+ */
 const isBST = (root) => {
   if (root == null) return true;
 
+  /**
+   *
+   * @param {TreeNode} node
+   */
   const process = (node) => {
     if (node == null) {
       return new Info(true, Infinity, -Infinity);
@@ -21,10 +29,9 @@ const isBST = (root) => {
     const leftInfo = process(node.left);
     const rightInfo = process(node.right);
 
-    const min = Math.min(node.val, leftInfo.min, rightInfo.min);
-    const max = Math.max(node.val, leftInfo.max, rightInfo.max);
-
-    const isBST =
+    let min = Math.min(leftInfo.min, rightInfo.min, node.val);
+    let max = Math.max(leftInfo.max, rightInfo.max, node.val);
+    let isBST =
       leftInfo.isBST &&
       rightInfo.isBST &&
       leftInfo.max < node.val &&
@@ -34,6 +41,28 @@ const isBST = (root) => {
   };
 
   return process(root).isBST;
+
+  // const process = (node) => {
+  //   if (node == null) {
+  //     return new Info(true, Infinity, -Infinity);
+  //   }
+
+  //   const leftInfo = process(node.left);
+  //   const rightInfo = process(node.right);
+
+  //   const min = Math.min(node.val, leftInfo.min, rightInfo.min);
+  //   const max = Math.max(node.val, leftInfo.max, rightInfo.max);
+
+  //   const isBST =
+  //     leftInfo.isBST &&
+  //     rightInfo.isBST &&
+  //     leftInfo.max < node.val &&
+  //     rightInfo.min > node.val;
+
+  //   return new Info(isBST, min, max);
+  // };
+
+  // return process(root).isBST;
 };
 
 //example

@@ -102,29 +102,6 @@ class Graph {
     }
   }
   dfs(head) {
-    // const visited = new Set();
-    // const stack = new Stack();
-
-    // stack.push(head);
-    // visited.add(head);
-
-    // console.log(head.value);
-    // while (!stack.isEmpty()) {
-    //   const v = stack.pop();
-    //   //先从栈中弹出节点，然后找到下一个没有被访问过的节点
-    //   //找到后立刻把弹出的节点和下一个节点压入栈中，并标记下一个节点为已访问，然后打印下一个节点的值
-    //   //退出当前循环，进行下一次循环
-    //   findNext: for (var next of v.nexts) {
-    //     if (!visited.has(next)) {
-    //       stack.push(v);
-    //       stack.push(next);
-    //       visited.add(next);
-    //       console.log(next.value);
-    //       break findNext;
-    //     }
-    //   }
-    // }
-
     const visited = new Set();
     const stack = new Stack();
 
@@ -149,6 +126,35 @@ class Graph {
         }
       }
     }
+  }
+
+  // 拓扑排序
+  // inMap是一张入度的表
+  // zeroInQueue 是将所有入度为0的Node加入到其中
+  sortTopology() {
+    const inMap = new Map();
+    const zeroInQueue = new Queue();
+
+    for (const [, node] of this.nodes) {
+      inMap.set(node, node.in);
+      if (node.in == 0) {
+        zeroInQueue.push(node);
+      }
+    }
+
+    const result = [];
+
+    while (!zeroInQueue.isEmpty()) {
+      const node = zeroInQueue.pop();
+      result.push(node);
+      for (const next of node.nexts) {
+        inMap.set(next, inMap.get(next) - 1);
+        if (inMap.get(next) == 0) {
+          zeroInQueue.push(next);
+        }
+      }
+    }
+    return result;
   }
 }
 
@@ -184,13 +190,14 @@ class Edge_ {
 //example
 const graph = new Graph();
 graph.addNode(1, "A", "B");
-graph.addNode(2, "A", "C");
-graph.addNode(3, "B", "C");
-graph.addNode(4, "C", "D");
-graph.addNode(5, "D", "A");
-graph.addNode(5, "B", "F");
-graph.addNode(5, "F", "D");
+graph.addNode(1, "A", "C");
+graph.addNode(1, "B", "D");
+graph.addNode(1, "C", "D");
+graph.addNode(1, "D", "E");
 
 graph.bfs(graph.nodes.get("A"));
 console.log("----");
 graph.dfs(graph.nodes.get("A"));
+console.log("----");
+console.log(graph.sortTopology());
+console.log("----");

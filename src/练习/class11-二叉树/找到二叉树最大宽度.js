@@ -1,6 +1,8 @@
 /**
- * 找到二叉树最多节点层数
- * 题目：给定一棵二叉树的头节点head，返回这棵二叉树的最大层数
+ * 找到二叉树最大宽度
+ * 题目：给定一棵二叉树的头节点head，返回这棵二叉树的最大宽度。
+ * 二叉树的宽度定义如下：
+ * 每一层节点的数目称为二叉树的宽度，二叉树的最大宽度是所有层中最大的宽度。
  * 思路：使用层序遍历，遍历过程中记录层数
  */
 
@@ -43,6 +45,7 @@ function maxDepth(head) {
 
   while (!queue.isEmpty()) {
     const node = queue.pop();
+    curLen++;
 
     if (node.left) {
       queue.push(node.left);
@@ -54,15 +57,14 @@ function maxDepth(head) {
       nextEndNode = node.right;
     }
 
-    curLen++;
-
     if (node == curEndNode) {
-      curEndNode = nextEndNode;
-      nextEndNode = null;
       max = Math.max(max, curLen);
       curLen = 0;
+      curEndNode = nextEndNode;
+      nextEndNode = null;
     }
   }
+
   return max;
 }
 

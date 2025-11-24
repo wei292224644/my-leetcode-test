@@ -14,18 +14,21 @@ const maxDistance = (root) => {
   if (root == null) return 0;
 
   const process = (node) => {
-    // if (node == null) {
-    //   return new Info(0, 0);
-    // }
-    // const leftInfo = process(node.left);
-    // const rightInfo = process(node.right);
-    // const height = Math.max(leftInfo.height, rightInfo.height) + 1;
-    // const maxDistance = Math.max(
-    //   leftInfo.maxDistance,
-    //   rightInfo.maxDistance,
-    //   leftInfo.height + rightInfo.height + 1
-    // );
-    // return new Info(maxDistance, height);
+    if (node == null) {
+      return new Info(0, 0);
+    }
+
+    const leftInfo = process(node.left);
+    const rightInfo = process(node.right);
+
+    const height = Math.max(leftInfo.height, rightInfo.height) + 1;
+    const maxDistance = Math.max(
+      leftInfo.maxDistance,
+      rightInfo.maxDistance,
+      leftInfo.height + rightInfo.height + 1
+    );
+
+    return new Info(maxDistance, height);
   };
 
   return process(root).maxDistance;

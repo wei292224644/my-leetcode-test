@@ -9,6 +9,11 @@ class Info {
   }
 }
 
+/**
+ *
+ * @param {TreeNode} root
+ * @returns {Info}
+ */
 const isFullBST = (root) => {
   if (root == null) return true;
 
