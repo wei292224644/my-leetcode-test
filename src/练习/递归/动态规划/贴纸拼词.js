@@ -56,5 +56,122 @@ function minStickers(stickers, str) {
   return ans === Infinity ? -1 : ans;
 }
 
+const AUnicode = "a".charCodeAt(0); // 97
+/**
+ *
+ * @param {string} stickers
+ * @param {string} str
+ * @returns {number}
+ */
+function minStickers2(stickers, str) {
+  if (!stickers || stickers.length === 0 || !str || str.length === 0) {
+    return -1;
+  }
+
+  const n = stickers.length;
+  const stickerCounts = new Array(n);
+  for (let i = 0; i < n; i++) {
+    stickerCounts[i] = new Array(26).fill(0);
+    for (const char of stickers[i]) {
+      stickerCounts[i][char.charCodeAt(0) - AUnicode]++;
+    }
+  }
+
+  const process = (stickerGroup, target) => {
+    if (target.length === 0) {
+      return 0;
+    }
+    const targetCount = new Array(26).fill(0);
+    for (const char of target) {
+      targetCount[char.charCodeAt(0) - AUnicode]++;
+    }
+
+    let min = Infinity;
+    for (let i = 0; i < stickerGroup.length; i++) {
+      const sticker = stickerGroup[i];
+
+      if (sticker[target[0].charCodeAt(0) - AUnicode] > 0) {
+        let str = "";
+
+        for (let i = 0; i < 26; i++) {
+          if (targetCount[i] > 0) {
+            const nums = targetCount[i] - sticker[i];
+
+            for (let j = 0; j < nums; j++) {
+              str += String.fromCharCode(AUnicode + i);
+            }
+          }
+        }
+
+        min = Math.min(min, process(stickerGroup, str));
+      }
+    }
+    return min + (min === Infinity ? 0 : 1);
+  };
+
+  const ans = process(stickerCounts, str);
+  return ans === Infinity ? -1 : ans;
+}
+
+function minStickers3(stickers, str) {
+  if (!stickers || stickers.length === 0 || !str || str.length === 0) {
+    return -1;
+  }
+
+  const n = stickers.length;
+  const stickerCounts = new Array(n);
+  for (let i = 0; i < n; i++) {
+    stickerCounts[i] = new Array(26).fill(0);
+    for (const char of stickers[i]) {
+      stickerCounts[i][char.charCodeAt(0) - AUnicode]++;
+    }
+  }
+
+  const memo = new Map();
+
+  const process = (stickerGroup, target) => {
+    if (target.length === 0) {
+      return 0;
+    }
+    if (memo.has(target)) {
+      return memo.get(target);
+    }
+
+    const targetCount = new Array(26).fill(0);
+    for (const char of target) {
+      targetCount[char.charCodeAt(0) - AUnicode]++;
+    }
+
+    let min = Infinity;
+    for (let i = 0; i < stickerGroup.length; i++) {
+      const sticker = stickerGroup[i];
+
+      if (sticker[target[0].charCodeAt(0) - AUnicode] > 0) {
+        let str = "";
+
+        for (let i = 0; i < 26; i++) {
+          if (targetCount[i] > 0) {
+            const nums = targetCount[i] - sticker[i];
+
+            for (let j = 0; j < nums; j++) {
+              str += String.fromCharCode(AUnicode + i);
+            }
+          }
+        }
+
+        min = Math.min(min, process(stickerGroup, str));
+      }
+    }
+    const ans = min + (min === Infinity ? 0 : 1);
+    memo.set(target, ans);
+    return ans;
+  };
+
+  const ans = process(stickerCounts, str);
+  return ans === Infinity ? -1 : ans;
+}
+
 //example
 console.log(minStickers(["ba", "c", "abcd"], "babac")); //2
+console.log(minStickers2(["ba", "c", "abcd"], "babac")); //2
+console.log(minStickers3(["ba", "c", "abcd"], "babac")); //2
