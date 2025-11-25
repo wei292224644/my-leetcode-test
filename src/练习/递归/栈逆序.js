@@ -26,9 +26,7 @@ class Stack {
 }
 
 function reverseStack(stack) {
-  if (stack.isEmpty()) {
-    return;
-  }
+  if (stack.isEmpty()) return;
   const i = f(stack);
   reverseStack(stack);
   stack.add(i);
@@ -36,12 +34,13 @@ function reverseStack(stack) {
 
 //辅助函数：递归实现获取并移除栈底元素
 function f(stack) {
-  const result = stack.pop();
+  const res = stack.pop();
   if (stack.isEmpty()) {
-    return result;
+    return res;
   }
+
   const last = f(stack);
-  stack.add(result);
+  stack.add(res);
   return last;
 }
 

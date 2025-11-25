@@ -6,19 +6,34 @@
 //请问如何搬动才能最少移动次数？
 
 function hanoi(n) {
+  // if (n < 1) return;
+
+  // const process = (n, from, to, other) => {
+  //   if (n == 1) {
+  //     console.log(`Move 1 from ${from} to ${to}`);
+  //     return;
+  //   }
+  //   //将 n-1 的圆盘从 from -> other
+  //   process(n - 1, from, other, to);
+  //   //将第 n 个圆盘从 from -> to
+  //   console.log(`Move ${n} from ${from} to ${to}`);
+  //   //将 n-1 的圆盘从 other -> to
+  //   process(n - 1, other, to, from);
+  // };
+
+  // process(n, "left", "right", "mid");
+
   if (n < 1) return;
 
-  const process = (n, from, to, other) => {
-    if (n == 1) {
+  const process = (num, from, to, other) => {
+    if (num == 1) {
       console.log(`Move 1 from ${from} to ${to}`);
       return;
     }
-    //将 n-1 的圆盘从 from -> other
-    process(n - 1, from, other, to);
-    //将第 n 个圆盘从 from -> to
-    console.log(`Move ${n} from ${from} to ${to}`);
-    //将 n-1 的圆盘从 other -> to
-    process(n - 1, other, to, from);
+
+    process(num - 1, from, other, to);
+    console.log(`Move ${num} from ${from} to ${to}`);
+    process(num - 1, other, to, from);
   };
 
   process(n, "left", "right", "mid");
