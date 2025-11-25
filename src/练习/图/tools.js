@@ -102,18 +102,4 @@ class Node_ {
   }
 }
 
-const heap = new Heap((a, b) => a.value - b.value);
-heap.add(new Node_(5));
-heap.add(new Node_(3));
-var node = new Node_(7);
-heap.add(node);
-heap.add(new Node_(2));
-heap.add(new Node_(8));
-heap.add(new Node_(1));
-
-node.value = 0;
-heap.update(node);
-
-while (!heap.isEmpty()) {
-  console.log(heap.pop());
-}
+export { Heap };

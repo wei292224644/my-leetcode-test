@@ -131,28 +131,56 @@ class Graph {
   // 拓扑排序
   // inMap是一张入度的表
   // zeroInQueue 是将所有入度为0的Node加入到其中
+  // BFS的方式进行拓扑排序
   sortTopology() {
     const inMap = new Map();
     const zeroInQueue = new Queue();
+    const result = [];
 
-    for (const [, node] of this.nodes) {
+    for (let [, node] of this.nodes) {
       inMap.set(node, node.in);
-      if (node.in == 0) {
+      if (node.in === 0) {
         zeroInQueue.push(node);
       }
     }
 
-    const result = [];
-
     while (!zeroInQueue.isEmpty()) {
       const node = zeroInQueue.pop();
       result.push(node);
-      for (const next of node.nexts) {
-        inMap.set(next, inMap.get(next) - 1);
-        if (inMap.get(next) == 0) {
+
+      for (let next of node.nexts) {
+        const inV = inMap.get(next) - 1;
+        inMap.set(next, inV);
+        if (inV === 0) {
           zeroInQueue.push(next);
         }
       }
+    }
+    return result;
+  }
+  //DFS的方式进行拓扑排序
+  sortTopologyByDFS() {
+    const visited = new Set();
+    const stack = new Stack();
+
+    const dfsTopo = (node, visited, stack) => {
+      if (visited.has(node)) {
+        return;
+      }
+      visited.add(node);
+      for (let next of node.nexts) {
+        dfsTopo(next, visited, stack);
+      }
+      stack.push(node);
+    };
+
+    for (let [, node] of this.nodes) {
+      dfsTopo(node, visited, stack);
+    }
+
+    const result = [];
+    while (!stack.isEmpty()) {
+      result.push(stack.pop());
     }
     return result;
   }
@@ -187,17 +215,4 @@ class Edge_ {
   }
 }
 
-//example
-const graph = new Graph();
-graph.addNode(1, "A", "B");
-graph.addNode(1, "A", "C");
-graph.addNode(1, "B", "D");
-graph.addNode(1, "C", "D");
-graph.addNode(1, "D", "E");
-
-graph.bfs(graph.nodes.get("A"));
-console.log("----");
-graph.dfs(graph.nodes.get("A"));
-console.log("----");
-console.log(graph.sortTopology());
-console.log("----");
+export { Graph, Node_, Edge_, Stack, Queue };
