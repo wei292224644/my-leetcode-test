@@ -4,6 +4,69 @@
 //arr=["ba","c","abcd"]
 //答案是2，使用两张贴纸"ba","abcd"，把abcd剪开，拼出babac来，舍弃字符"d"
 //leetcode上类似题目：691. 贴纸拼词
+const AUnicode = "a".charCodeAt(0); // 97
+
+function minStickersTest(stickers, str) {
+  if (!stickers || stickers.length === 0 || !str || str.length === 0) {
+    return -1;
+  }
+
+  const N = stickers.length;
+  //把stickers 转换为词频序列
+  const stickersCount = new Array(N);
+
+  for (let i = 0; i < stickersCount.length; i++) {
+    stickersCount[i] = new Array(26).fill(0);
+
+    for (const char of stickers[i]) {
+      stickersCount[i][char.charCodeAt(0) - AUnicode]++;
+    }
+  }
+
+  const memo = new Map();
+
+  //递归，返回当前rest最少需要多少贴纸
+  const process = (stickers, rest) => {
+    if (memo.has(rest)) return memo.get(rest);
+
+    //base case
+    if (rest.length == 0) return 0;
+
+    const restCount = new Array(26).fill(0);
+    for (let i = 0; i < rest.length; i++) {
+      restCount[rest[i].charCodeAt(0) - AUnicode]++;
+    }
+
+    let min = Infinity;
+
+    for (let i = 0; i < stickers.length; i++) {
+      const sticker = stickers[i];
+
+      //找到第一个可以使用的贴纸
+      if (sticker[rest[0].charCodeAt(0) - AUnicode] > 0) {
+        let str = "";
+
+        for (let i = 0; i < 26; i++) {
+          if (restCount[i] > 0) {
+            const nums = restCount[i] - sticker[i];
+
+            for (let j = 0; j < nums; j++) {
+              str += String.fromCharCode(AUnicode + i);
+            }
+          }
+        }
+
+        min = Math.min(min, process(stickers, str));
+      }
+    }
+    const ans = min + (min == Infinity ? 0 : 1);
+    memo.set(rest, ans);
+    return ans;
+  };
+
+  const ans = process(stickersCount, str);
+  return ans === Infinity ? -1 : ans;
+}
 
 function minStickers(stickers, str) {
   if (!stickers || stickers.length === 0 || !str || str.length === 0) {
@@ -56,7 +119,6 @@ function minStickers(stickers, str) {
   return ans === Infinity ? -1 : ans;
 }
 
-const AUnicode = "a".charCodeAt(0); // 97
 /**
  *
  * @param {string} stickers
@@ -174,4 +236,4 @@ function minStickers3(stickers, str) {
 //example
 console.log(minStickers(["ba", "c", "abcd"], "babac")); //2
 console.log(minStickers2(["ba", "c", "abcd"], "babac")); //2
-console.log(minStickers3(["ba", "c", "abcd"], "babac")); //2
+console.log(minStickersTest(["ba", "c", "abcd"], "babac")); //2

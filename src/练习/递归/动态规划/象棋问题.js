@@ -4,6 +4,75 @@
 //给你三个参数x,y,k
 //返回 ”马“ 从(0,0)出发，经过k步后，落在(x,y)位置的方法数
 
+function horseJumpTest(x, y, k) {
+  const n = 9;
+  const m = 10;
+
+  if (x < 0 || x > n - 1 || y < 0 || y > m - 1 || k < 0) {
+    return 0;
+  }
+
+  // const process = (px, py, rest, x, y) => {
+  //   //越界了
+  //   if (x < 0 || x > n || y < 0 || y > m || k < 0) {
+  //     return 0;
+  //   }
+
+  //   // base case
+  //   if (rest == 0) {
+  //     return px == x && py == y ? 1 : 0;
+  //   }
+
+  //   let ways = process(px, py, rest - 1, x + 2, y + 1);
+  //   ways += process(px, py, rest - 1, x + 2, y - 1);
+
+  //   ways += process(px, py, rest - 1, x - 2, y + 1);
+  //   ways += process(px, py, rest - 1, x - 2, y - 1);
+
+  //   ways += process(px, py, rest - 1, x + 1, y + 2);
+  //   ways += process(px, py, rest - 1, x + 1, y - 2);
+
+  //   ways += process(px, py, rest - 1, x - 1, y + 2);
+  //   ways += process(px, py, rest - 1, x - 1, y - 2);
+
+  //   return ways;
+  // };
+
+  // return process(x, y, k, 0, 0);
+
+  const pick = (arr, rest, x, y) => {
+    if (x < 0 || x > n - 1 || y < 0 || y > m - 1) {
+      return 0;
+    }
+
+    return arr[x][y][rest];
+  };
+
+  const dp = Array.from({ length: n }, () =>
+    Array.from({ length: m }, () => Array(k + 1).fill(0))
+  );
+  //base case
+  dp[x][y][0] = 1;
+
+  for (let rest = 1; rest <= k; rest++) {
+    for (let x = 0; x < n; x++) {
+      for (let y = 0; y < m; y++) {
+        let ways = pick(dp, rest - 1, x + 2, y + 1);
+        ways += pick(dp, rest - 1, x + 2, y - 1);
+        ways += pick(dp, rest - 1, x - 2, y + 1);
+        ways += pick(dp, rest - 1, x - 2, y - 1);
+        ways += pick(dp, rest - 1, x + 1, y + 2);
+        ways += pick(dp, rest - 1, x + 1, y - 2);
+        ways += pick(dp, rest - 1, x - 1, y + 2);
+        ways += pick(dp, rest - 1, x - 1, y - 2);
+        dp[x][y][rest] = ways;
+      }
+    }
+  }
+
+  return dp[0][0][k];
+}
+
 function horseJump(x, y, k) {
   if (x < 0 || x > 8 || y < 0 || y > 9 || k < 0) {
     return 0;
@@ -81,3 +150,4 @@ function horseJump2(x, y, k) {
 // example
 // console.log(horseJump(7, 7, 10)); // 515813
 console.log(horseJump2(7, 7, 10)); // 515813
+console.log(horseJumpTest(7, 7, 10)); // 515813

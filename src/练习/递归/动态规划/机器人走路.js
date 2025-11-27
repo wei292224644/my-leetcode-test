@@ -1,5 +1,59 @@
 //机器人走路
 //N为路长度，start为起始位置，aim为目标位置，k为步数
+//返回有多少种走法可以从start走到aim位置
+
+function robotWalkTest(N, start, aim, k) {
+  if (N < 2 || start < 1 || start > N || aim < 1 || aim > N || k < 1) {
+    return 0;
+  }
+
+  /**
+   *
+   * @param {number} N 路长度
+   * @param {number} aim 终点
+   * @param {number} pos 当前位置
+   * @param {number} rest 剩余步数
+   */
+  // const process = (N, aim, pos, rest) => {
+  //   if (rest == 0) {
+  //     return pos == aim ? 1 : 0;
+  //   }
+
+  //   if (pos == 1) {
+  //     return process(N, aim, 2, rest - 1);
+  //   }
+  //   if (pos == N) {
+  //     return process(N, aim, N - 1, rest - 1);
+  //   }
+
+  //   return (
+  //     process(N, aim, pos + 1, rest - 1) + process(N, aim, pos - 1, rest - 1)
+  //   );
+  // };
+
+  // return process(N, aim, start, k);
+
+  const dp = Array.from({ length: N + 1 }, () => Array(k + 1).fill(0));
+  dp[aim][0] = 1;
+
+  for (let rest = 1; rest <= k; rest++) {
+    dp[1][rest] = dp[2][rest - 1];
+    for (let pos = 2; pos < N; pos++) {
+      dp[pos][rest] = dp[pos + 1][rest - 1] + dp[pos - 1][rest - 1];
+    }
+    dp[N][rest] = dp[N - 1][rest - 1];
+  }
+
+  return dp[start][k];
+}
+
+/**
+ *
+ * @param {number} N  路长度
+ * @param {number} start 起始位置
+ * @param {number} aim  目标位置
+ * @param {number} k 步数
+ */
 function robotWalk(N, start, aim, k) {
   // 边界条件检查
   // 路长度N必须大于等于2
@@ -94,7 +148,7 @@ function robotWalkDP(N, start, aim, k) {
     for (let cur = 2; cur < N; cur++) {
       dp[cur][rest] = dp[cur - 1][rest - 1] + dp[cur + 1][rest - 1];
     }
-    dp[N][rest] = dp[N - 1][rest - 1];
+    // dp[N][rest] = dp[N - 1][rest - 1];
   }
 
   return dp[start][k];
@@ -105,7 +159,6 @@ const N = 5;
 const start = 2;
 const aim = 4;
 const k = 6;
-console.log(robotWalk(N, start, aim, k)); // 4
+console.log(robotWalkTest(N, start, aim, k)); // 4
 console.log(robotWalkDP(N, start, aim, k)); // 4
 console.log("---");
-

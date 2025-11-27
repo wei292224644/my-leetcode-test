@@ -105,8 +105,8 @@ function maxValue3(weights, values, bag) {
     dp[W][i] = 0;
   }
 
-  for (let index = W - 1; index >= 0; index--) {
-    for (let rest = 0; rest <= bag; rest++) {
+  for (let rest = 0; rest <= bag; rest++) {
+    for (let index = W - 1; index >= 0; index--) {
       //   //没有要当前的货物
       //   const p1 = process(weights, values, index + 1, rest, dp);
 

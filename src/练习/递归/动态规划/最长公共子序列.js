@@ -3,6 +3,51 @@
 //str1="abcde",str2="ace"  返回3  "ace"
 //str1="abc",str2="def"    返回0  ""
 
+function longestCommonSubsequenceTest(text1, text2) {
+  if (!text1 || !text2 || text1.length === 0 || text2.length === 0) {
+    return 0;
+  }
+
+  // const process = (text1, text2, i, j) => {
+  //   if (i == text1.length || j == text2.length) {
+  //     return 0;
+  //   }
+
+  //   let res = 0;
+  //   if (text1[i] == text2[j]) {
+  //     res = 1 + process(text1, text2, i + 1, j + 1);
+  //   } else {
+  //     const p1 = process(text1, text2, i + 1, j);
+  //     const p2 = process(text1, text2, i, j + 1);
+  //     res = Math.max(p1, p2);
+  //   }
+
+  //   return res;
+  // };
+
+  // return process(text1, text2, 0, 0);
+  const n = text1.length;
+  const m = text2.length;
+  const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      let res = 0;
+      if (text1[i] == text2[j]) {
+        res = 1 + dp[i + 1][j + 1];
+      } else {
+        const p1 = dp[i + 1][j];
+        const p2 = dp[i][j + 1];
+        res = Math.max(p1, p2);
+      }
+
+      dp[i][j] = res;
+    }
+  }
+
+  return dp[0][0];
+}
+
 function longestCommonSubsequence(text1, text2) {
   if (!text1 || !text2 || text1.length === 0 || text2.length === 0) {
     return 0;
@@ -104,5 +149,7 @@ function longestCommonSubsequence3(text1, text2) {
 //example
 // console.log(longestCommonSubsequence("pmjghexybyrgzczy", "hafcdqbgncrcbihkd")); //4
 console.log(longestCommonSubsequence2("pmjghexybyrgzczy", "hafcdqbgncrcbihkd")); //4
-console.log(longestCommonSubsequence3("pmjghexybyrgzczy", "hafcdqbgncrcbihkd")); //4
+console.log(
+  longestCommonSubsequenceTest("pmjghexybyrgzczy", "hafcdqbgncrcbihkd")
+); //4
 // console.log(longestCommonSubsequence("abc", "def")); //0

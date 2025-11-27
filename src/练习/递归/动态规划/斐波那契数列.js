@@ -9,16 +9,12 @@ const fib = (n) => {
   if (n < 1) return 0;
   if (n === 1 || n === 2) return 1;
 
-  let pre = 1; // F(1)
-  let cur = 1; // F(2)
-  let next = 0;
+  const process = (n) => {
+    if (n === 1 || n === 2) return 1;
+    return process(n - 1) + process(n - 2);
+  };
 
-  for (let i = 3; i <= n; i++) {
-    next = pre + cur; // F(n) = F(n-1) + F(n-2)
-    pre = cur; // 更新 F(n-2)
-    cur = next; // 更新 F(n-1)
-  }
-  return next;
+  return process(n);
 };
 
 //example

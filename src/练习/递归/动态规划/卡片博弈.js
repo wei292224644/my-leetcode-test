@@ -1,6 +1,62 @@
 //现在有一组数字，有先手玩家和后手玩家，两人轮流选择从数组的左侧或者右侧抽排，谁最后得分高谁获胜。
 //请实现一个函数，输入一个数组，返回最大分数。
-function firstWillWin(arr) {
+
+function maxValueTest(arr) {
+  if (!arr || arr.length === 0) return 0;
+  const N = arr.length;
+
+  // //先手时，返回最大分数
+  // const p = (arr, L, R) => {
+  //   if (L == R) {
+  //     return arr[L];
+  //   }
+
+  //   const p1 =arr[L] + f(arr, L + 1, R);
+  //   const p2 =arr[R] +  f(arr, L, R - 1);
+
+  //   return Math.max(p1, p2);
+  // };
+
+  // //后手时，返回最小分数
+  // const f = (arr, L, R) => {
+  //   if (L == R) {
+  //     return 0;
+  //   }
+
+  //   const p1 = p(arr, L + 1, R);
+  //   const p2 = p(arr, L, R - 1);
+
+  //   return Math.min(p1, p2);
+  // };
+
+  // //先手结果
+  // const first = p(arr, 0, N - 1);
+  // //后手结果
+  // const second = f(arr, 0, N - 1);
+  // return Math.max(first, second);
+
+  const pdp = Array.from({ length: N }, () => Array(N).fill(0));
+  const fdp = Array.from({ length: N }, () => Array(N).fill(0));
+
+  for (let i = 0; i < N; i++) {
+    pdp[i][i] = arr[i];
+  }
+
+  for (let startCol = 1; startCol < N; startCol++) {
+    let L = 0;
+    let R = startCol;
+
+    while (R < N) {
+      pdp[L][R] = Math.max(arr[L] + fdp[L + 1][R], arr[R] + fdp[L][R - 1]);
+      fdp[L][R] = Math.min(pdp[L + 1][R], pdp[L][R - 1]);
+      L++;
+      R++;
+    }
+  }
+  return Math.max(pdp[0][N - 1], fdp[0][N - 1]);
+}
+
+function maxValue(arr) {
   if (!arr || arr.length === 0) return 0;
   //先手函数
   const f = (arr, L, R) => {
@@ -31,7 +87,7 @@ function firstWillWin(arr) {
   return Math.max(first, second);
 }
 
-function firstWillWin2(arr) {
+function maxValue2(arr) {
   if (!arr || arr.length === 0) return 0;
   //先手函数
   const f = (arr, L, R, fmap, gmap) => {
@@ -83,7 +139,7 @@ function firstWillWin2(arr) {
   return Math.max(first, second);
 }
 
-function firstWillWin3(arr) {
+function maxValue3(arr) {
   if (!arr || arr.length === 0) return 0;
 
   const N = arr.length;
@@ -144,6 +200,7 @@ function firstWillWin3(arr) {
 }
 
 // example
-console.log(firstWillWin([1, 2, 3, 4, 5])); //9
-console.log(firstWillWin2([1, 2, 3, 4, 5])); //9
-console.log(firstWillWin3([1, 2, 3, 4, 5])); //9
+console.log(maxValue([1, 2, 3, 4, 5])); //9
+console.log(maxValue2([1, 2, 3, 4, 5])); //9
+console.log(maxValue3([1, 2, 3, 4, 5])); //9
+console.log(maxValueTest([1, 2, 3, 4, 5])); //9
