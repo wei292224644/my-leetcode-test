@@ -158,26 +158,54 @@ function coinWays3(arr, aim) {
     counts.push(value);
   }
 
-  //将货币整合成面值数组和对应张数数组
-  //然后从左到右尝试所有可能性
-  const process = (coins, counts, index, rest) => {
-    if (index === coins.length) {
-      return rest === 0 ? 1 : 0;
+  // //将货币整合成面值数组和对应张数数组
+  // //然后从左到右尝试所有可能性
+  // const process = (coins, counts, index, rest) => {
+  //   if (index === coins.length) {
+  //     return rest === 0 ? 1 : 0;
+  //   }
+
+  //   let ways = 0;
+
+  //   for (
+  //     let zhangs = 0;
+  //     zhangs <= counts[index] && zhangs * coins[index] <= rest;
+  //     zhangs++
+  //   ) {
+  //     ways += process(coins, counts, index + 1, rest - zhangs * coins[index]);
+  //   }
+  //   return ways;
+  // };
+
+  // return process(coins, counts, 0, aim);
+
+  //动态规划
+
+  const N = coins.length;
+  const M = aim;
+
+  const dp = Array.from({ length: N + 1 }, () => Array(M + 1).fill(0));
+  dp[N][0] = 1;
+
+  for (let index = N - 1; index >= 0; index--) {
+    for (let rest = 0; rest <= M; rest++) {
+      let ways = dp[index + 1][rest];
+
+      if (rest - coins[index] >= 0) {
+        ways += dp[index][rest - coins[index]];
+
+        //上一个dp[index][rest - coins[index]]包含了使用超过counts[index]张的情况
+        //需要减去这些多余的情况
+        const offset = coins[index] * (counts[index] + 1);
+
+        if (rest - offset >= 0) {
+          ways -= dp[index + 1][rest - offset];
+        }
+      }
+      dp[index][rest] = ways;
     }
-
-    let ways = 0;
-
-    for (
-      let zhangs = 0;
-      zhangs <= counts[index] && zhangs * coins[index] <= rest;
-      zhangs++
-    ) {
-      ways += process(coins, counts, index + 1, rest - zhangs * coins[index]);
-    }
-    return ways;
-  };
-
-  return process(coins, counts, 0, aim);
+  }
+  return dp[0][aim];
 }
 
 //example
