@@ -74,11 +74,11 @@ function manacher(str) {
 
 function manacherTest(str) {
   if (str == null || str.length === 0) {
-    return 0;
+    return -1;
   }
 
   const manacherStr = (str) => {
-    let res = [];
+    const res = [];
     res.push("#");
     for (let i = 0; i < str.length; i++) {
       res.push(str[i]);
@@ -86,11 +86,9 @@ function manacherTest(str) {
     }
     return res.join("");
   };
-
   const s = manacherStr(str);
   const N = s.length;
-
-  const pArr = Array(N).fill(0);
+  const pArr = new Array(N).fill(0);
 
   let C = -1;
   let R = -1;
@@ -100,7 +98,7 @@ function manacherTest(str) {
     pArr[i] = R > i ? Math.min(R - i, pArr[2 * C - i]) : 1;
 
     while (i + pArr[i] < N && i - pArr[i] > -1) {
-      if (s[i + pArr[i]] == s[i - pArr[i]]) {
+      if (s[i + pArr[i]] === s[i - pArr[i]]) {
         pArr[i]++;
       } else {
         break;
@@ -120,3 +118,8 @@ function manacherTest(str) {
 
 // example
 console.log(manacherTest("abcdckstskcdcba")); // 15
+
+//总结:
+//1. Manacher算法通过预处理字符串和利用回文的对称性，实现了在线性时间内求解最长回文子串的问题。
+//2. 预处理字符串的目的是将所有可能的回文子串（包括奇数长度和偶数长度）统一为奇数长度，简化了回文扩展的逻辑。
+//3. 算法的核心在于利用已经计算过的回文信息，避免重复计算，从而提高效率。

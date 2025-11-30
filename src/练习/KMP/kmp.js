@@ -110,7 +110,7 @@ function kmpSearch(str1, str2) {
   return y == l2 ? x - y : -1;
 }
 
-function kmpSearchTest(str1, str2) {
+function kmpSearchTest2(str1, str2) {
   if (
     str1 == null ||
     str2 == null ||
@@ -121,20 +121,18 @@ function kmpSearchTest(str1, str2) {
   }
 
   const getNextArray = (str) => {
-    if (str.length == 1) {
+    if (str.length === 1) {
       return [-1];
     }
-    const len = str.length;
-
-    const next = new Array(len);
+    const L = str.length;
+    const next = new Array(L);
     next[0] = -1;
     next[1] = 0;
-
     let i = 2;
     let cn = 0;
 
-    while (i < len) {
-      if (str[i - 1] == str[cn]) {
+    while (i < L) {
+      if (str[i - 1] === str[cn]) {
         next[i++] = ++cn;
       } else if (cn > 0) {
         cn = next[cn];
@@ -142,20 +140,18 @@ function kmpSearchTest(str1, str2) {
         next[i++] = 0;
       }
     }
-
     return next;
   };
 
-  const l1 = str1.length;
-  const l2 = str2.length;
+  const L1 = str1.length;
+  const L2 = str2.length;
 
   let x = 0;
   let y = 0;
-
   const next = getNextArray(str2);
 
-  while (x < l1 && y < l2) {
-    if (str[x] == str[y]) {
+  while (x < L1 && y < L2) {
+    if (str1[x] == str2[y]) {
       x++;
       y++;
     } else if (next[y] == -1) {
@@ -164,8 +160,17 @@ function kmpSearchTest(str1, str2) {
       y = next[y];
     }
   }
+
+  return y == L2 ? x - y : -1;
 }
 
 // example
 
-console.log(kmpSearch("ababcababcabc", "abc")); // 2
+console.log(kmpSearchTest2("ababcababcabc", "babcabc")); // 2
+
+//总结
+//1. KMP 算法的核心是利用已经匹配过的信息，避免重复比较，从而提高匹配效率。
+//2. KMP 算法的时间复杂度为 O(N+M) ，N 为主串长度，M 为模式串长度。
+//3. KMP 算法的关键在于构建模式串的 next 数组，next 数组记录了模式串中每个位置的最长相同前后缀长度。
+//4. 在匹配过程中，当遇到不匹配的字符时，可以利用 next 数组的信息，跳过一些不必要的比较，从而提高匹配效率。
+//5. KMP 算法适用于需要频繁进行字符串匹配的场景，如文本编辑器、搜索引擎等。
