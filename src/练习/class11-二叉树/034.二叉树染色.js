@@ -5,7 +5,7 @@
  *     this.left = this.right = null;
  * }
  */
-const { TreeNode } = require("./tools");
+import { TreeNode } from "./tools.js";
 /**
  * 小扣有一个根结点为 root 的二叉树模型，初始所有结点均为白色，可以用蓝色染料给模型结点染色，模型的每个结点有一个 val 价值。小扣出于美观考虑，希望最后二叉树上每个蓝色相连部分的结点个数不能超过 k 个，求所有染成蓝色的结点价值总和最大是多少？
  * @param {TreeNode} root
@@ -15,32 +15,32 @@ const { TreeNode } = require("./tools");
 
 //TODO 未完成
 class Info {
-  constructor(flag, max) {
-    this.flag = flag; // 当前节点是否染色
+  constructor(max, count) {
     this.max = max; // 当前节点染色的最大价值
+    this.count = count;
   }
 }
-var maxValue = function (root, k) {
-  if (root == null) return 0;
-  if (k <= 0) return 0;
+// var maxValue = function (root, k) {
+//   if (root == null) return 0;
+//   if (k <= 0) return 0;
 
-  const process = (node) => {
-    if (node == null) return new Info(false, 0);
+//   const process = (node) => {
+//     if (node == null) return new Info(false, 0);
 
-    const leftInfo = process(node.left);
-    const rightInfo = process(node.right);
-    let max = 0;
-    let flag = false;
+//     const leftInfo = process(node.left);
+//     const rightInfo = process(node.right);
+//     let max = 0;
+//     let flag = false;
 
-    max = Math.max(leftInfo.max, rightInfo.max) + node.val;
+//     max = Math.max(leftInfo.max, rightInfo.max) + node.val;
 
-    //判断当前节点是否可以染色
+//     //判断当前节点是否可以染色
 
-    return new Info(flag, max);
-  };
+//     return new Info(flag, max);
+//   };
 
-  return process(root);
-};
+//   return process(root);
+// };
 
 //example
 const node = new TreeNode(5);
@@ -50,4 +50,29 @@ node.left.left = new TreeNode(2);
 node.left.right = new TreeNode(4);
 node.right.right = new TreeNode(10);
 
-console.log(maxValue(node, 3)); //18
+// console.log(maxValue(node, 3)); //18
+
+class Info2 {
+  constructor( count) {
+  }
+}
+const maxValue2 = (root, k) => {
+  if (root == null) return 0;
+  if (k <= 0) return 0;
+
+  const process = (node, k) => {
+    if (root == null) return new Info(0, 0);
+
+
+    const leftInfo = process(node.left);
+    const rightInfo = process(node.right);
+
+    let kCount = false;
+    let max = 0;
+
+    max = Math.max(Math.max(leftInfo.max, rightInfo.max) + node.val, k);
+  };
+
+  const result = process(root, k);
+  return result;
+};

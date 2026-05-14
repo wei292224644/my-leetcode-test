@@ -57,3 +57,56 @@ const array = [34, 7, 23, 32, 5, 62];
 console.log("Original array:", array);
 quickSort(array);
 console.log("Sorted array:", array);
+
+const quickSort2 = (arr) => {
+  if (arr == null || arr.length <= 1) {
+    return arr;
+  }
+
+  const partition = (arr, l, r) => {
+    if (l > r) {
+      return [-1, -1];
+    }
+
+    if (l == r) {
+      return [l, r];
+    }
+
+    let less = l - 1;
+
+    let more = r;
+
+    let index = l;
+
+    while (index < more) {
+      if (arr[index] < arr[r]) {
+        swap(arr, ++less, index++);
+      } else if (arr[index] == arr[r]) {
+        index++;
+      } else {
+        swap(arr, --more, index);
+      }
+    }
+
+    swap(arr, more, r);
+    return [less + 1, more];
+  };
+
+  const process = (arr, l, r) => {
+    if (l >= r) return;
+
+    swap(arr, r, l + Math.floor(Math.random() * (r - l + 1)));
+    const [less, more] = partition(arr, l, r);
+    process(arr, l, less - 1);
+    process(arr, more + 1, r);
+  };
+
+  const n = arr.length;
+  process(arr, 0, n - 1);
+  return arr;
+};
+
+const array2 = [34, 7, 23, 32, 5, 62];
+console.log("Original array:", array2);
+quickSort2(array2);
+console.log("Sorted array:", array2);

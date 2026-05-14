@@ -6,7 +6,7 @@
  * 思路：使用层序遍历，遍历过程中记录层数
  */
 
-const { generateRandomBST, printTree, TreeNode } = require("./tools.js");
+import { generateRandomBST, printTree, TreeNode } from "./tools.js";
 
 class Queue {
   constructor() {
@@ -70,6 +70,43 @@ function maxDepth(head) {
 
 // example usage:
 
+const maxDepth2 = (head) => {
+  if (head == null) return 0;
+
+  let curEndNode, nextEndNode;
+  let max = 0;
+  let curLen = 0;
+
+  const queue = new Queue();
+  queue.push(head);
+
+  curEndNode = head;
+
+  while (!queue.isEmpty()) {
+    const node = queue.pop();
+    curLen++;
+
+    if (node.left) {
+      queue.push(node.left);
+      nextEndNode = node.left;
+    }
+
+    if (node.right) {
+      queue.push(node.right);
+      nextEndNode = node.right;
+    }
+
+    if (node == curEndNode) {
+      max = Math.max(curLen, max);
+      curEndNode = nextEndNode;
+      nextEndNode = null;
+      curLen = 0;
+    }
+  }
+
+  return max;
+};
+
 const randomBST = generateRandomBST(5, 100);
 printTree(randomBST);
-console.log("Max Depth:", maxDepth(randomBST));
+console.log("Max Depth:", maxDepth(randomBST), maxDepth2(randomBST));

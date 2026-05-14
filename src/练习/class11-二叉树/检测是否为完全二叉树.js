@@ -13,8 +13,7 @@
 //      d. 左子树为满二叉树，右子树为完全二叉树，且左子树高度等于右子树高度
 // 3. 最终返回根节点的 Info.isCBT 即可判断整棵树是否为完全二叉树
 
-const { TreeNode, generateRandomBST, printTree, Queue } = require("./tools");
-
+import { TreeNode, generateRandomBST, printTree, Queue } from "./tools.js";
 class Info {
   constructor(isFull, isCBT, height) {
     this.isFull = isFull;
@@ -137,6 +136,65 @@ const isCompleteBinaryTree = (root) => {
   // return process(root).isCBT;
 };
 
+const isCompleteBinaryTree2 = (root) => {
+  if (root == null) return true;
+
+  const process = (node) => {
+    if (node === null) return new Info(true, true, 0);
+
+    const leftInfo = process(node.left);
+    const rightInfo = process(node.right);
+
+    let isFull = false;
+    let isCBT = false;
+    let height = 0;
+
+    height = Math.max(leftInfo.height, rightInfo.height) + 1;
+
+    isFull =
+      leftInfo.isFull &&
+      rightInfo.isFull &&
+      leftInfo.height == rightInfo.height;
+
+    // 左右子树均为满二叉树且高度相等
+    if (isFull) isCBT = true;
+
+    //左子树为完全二叉树，右子树为满二叉树，且左子树高度比右子树高度大 1
+    if (
+      leftInfo.isCBT &&
+      rightInfo.isFull &&
+      leftInfo.height == rightInfo.height + 1
+    ) {
+      isCBT = true;
+    }
+
+    //左子树为满二叉树，右子树为满二叉树，且左子树高度比右子树高度大 1
+    if (
+      leftInfo.isFull &&
+      rightInfo.isFull &&
+      leftInfo.height == rightInfo.height + 1
+    ) {
+      isCBT = true;
+    }
+
+    //左子树为满二叉树，右子树为完全二叉树，且左子树高度等于右子树高度
+
+    if (
+      leftInfo.isFull &&
+      rightInfo.isCBT &&
+      leftInfo.height == rightInfo.height
+    ) {
+      isCBT = true;
+    }
+
+    return new Info(isFull, isCBT, height);
+  };
+
+  const result = process(root);
+
+  return result.isCBT;
+};
+
 //对数器
 const isCBTByTraversal = (head) => {
   if (head == null) return true;
@@ -172,7 +230,8 @@ for (let i = 0; i < testTimes; i++) {
   const head = generateRandomBST(maxLevel, maxValue);
   const res1 = isCompleteBinaryTree(head);
   const res2 = isCBTByTraversal(head);
-  if (res1 !== res2) {
+  const res3 = isCompleteBinaryTree2(head);
+  if (res1 !== res2 || res1 !== res3) {
     console.log("Oops!");
   }
 }

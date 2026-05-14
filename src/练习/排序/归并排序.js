@@ -80,3 +80,53 @@ console.log("Sorted array:", array);
 const array1 = [38, 27, 43, 3, 9, 82, 10];
 mergeSort(array1);
 console.log("Sorted array:", array1);
+
+const mergeSort2 = (arr) => {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  const merge = (arr, left, mid, right) => {
+    const helper = [];
+
+    const L = left;
+    const R = mid + 1;
+
+    while (l <= mid && r <= right) {
+      if (arr[L] <= arr[R]) {
+        helper.push(arr[L++]);
+      } else {
+        helper.push(arr[R++]);
+      }
+    }
+
+    while (L <= mid) {
+      helper.push(arr[L++]);
+    }
+    while (R <= right) {
+      helper.push(arr[R++]);
+    }
+
+    for (let i = 0; i < helper.length; i++) {
+      arr[left + i] = helper[i];
+    }
+  };
+
+  const process = (arr, left, right) => {
+    if (left >= right) {
+      return;
+    }
+
+    const mid = left + ((right - left) >> 1);
+
+    process(arr, left, mid);
+    process(arr, mid + 1, right);
+    merge(arr, left, mid, right);
+  };
+
+  process(arr, 0, arr.length - 1);
+};
+
+const array2 = [38, 27, 43, 3, 9, 82, 10];
+mergeSort2(array2);
+console.log("Sorted array:", array2);
